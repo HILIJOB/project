@@ -1,11 +1,9 @@
 <?php
-function deletegroup(){
-    $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-    $delid = $_GET["delgroupid"];
-    $query = "Delete from university.Group1 where groupid = $delid";
-    if (mysqli_query($conn,$query)){
-        echo "Данные удалены";
-    } else{
-        echo "Ошибка";
-    }
-}
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'id' => $_POST['id']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/deletegroup.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

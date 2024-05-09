@@ -1,16 +1,13 @@
 <?php
-function insertstudent()
-{
-    $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-    printf("Успешно... %s\n", mysqli_get_host_info($conn));
-    $fioex = $_GET['fio'];
-    $fio = str_replace('_', ' ', $fioex);
-    $date = $_GET["dateob"];
-    $codegr = $_GET["groupid"];
-    $query = "INSERT INTO Student(FIO, DateOB, GroupID) VALUES('$fio','$date',$codegr)";
-    if (mysqli_query($conn, $query)) {
-        echo "Данные внесены в таблицу Студент";
-    } else {
-        echo "Ошибка";
-    }
-}
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'studentFirstName' => $_POST['studentFirstName'],
+        'studentLastName' => $_POST['studentLastName'],
+        'studentPatronimic' => $_POST['studentPatronimic'],
+        'studentBirthday' => $_POST['studentBirthday'],
+        'groupId' => $_POST['groupId']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/insertstudent.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

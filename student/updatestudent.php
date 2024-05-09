@@ -1,14 +1,13 @@
 <?php
-function updatestudent(){
-    $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-    $updateid = $_GET["updateid"];
-    $newfio = $_GET["newfio"];
-    $newgroupid = $_GET["newgroupid"];
-    $newdateob = $_GET["newdateob"];
-    $query = "UPDATE Student SET fio = '$newfio', groupid = $newgroupid, dateob = '$newdateob' WHERE studentid = '$updateid' ";
-    if (mysqli_query($conn, $query)) {
-        echo "Изменения записаны";
-    } else{
-        echo "Ошибка";
-    }
-}
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'studentFirstName' => $_POST['studentFirstName'],
+        'id' => $_POST['id'],
+        'studentLastName' => $_POST['studentLastName'],
+        'studentPatronimic' => $_POST['studentPatronimic'],
+        'studentBirthday' => $_POST['studentBirthday']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/updatestudent.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

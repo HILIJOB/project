@@ -1,12 +1,10 @@
 <?php
-    function updatefaculty(){
-        $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-        $newfaculty = $_GET['newfaculty'];
-        $updateid = $_GET['updateid'];
-        $query = "UPDATE Faculty SET faculty = '$newfaculty' WHERE facultyid = '$updateid'";
-        if (mysqli_query($conn, $query)) {
-            echo "Изменения записаны";
-        } else{
-            echo "Ошибка";
-        }
-    }
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'facultyName' => $_POST['facultyName'],
+        'id' => $_POST['id']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/updatefaculty.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

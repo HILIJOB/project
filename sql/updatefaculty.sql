@@ -1,0 +1,1 @@
+UPDATE university.Faculty SET facultyName = :facultyName WHERE id = :id;

@@ -1,0 +1,1 @@
+INSERT INTO university.Department(departmentName,facultyId) VALUES(:departmentName,:facultyId);

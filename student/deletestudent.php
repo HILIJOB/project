@@ -1,11 +1,9 @@
 <?php
-function deletestudent(){
-    $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-    $delid = $_GET["delstudentid"];
-    $query = "Delete from university.Student where studentid = $delid";
-    if (mysqli_query($conn,$query)){
-        echo "Данные удалены";
-    } else{
-        echo "Ошибка";
-    }
-}
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'id' => $_POST['id']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/deletestudent.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

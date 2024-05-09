@@ -1,12 +1,12 @@
 <?php
-    function getgroup() {
-        $query = "SELECT * FROM Group1";
-        $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-        $rows = mysqli_query($conn,$query);
-        $json = [];
-        while($row = mysqli_fetch_assoc($rows)) {
-            $json[] = $row;
-        }
-        echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $sql = file_get_contents(__DIR__ . '/../sql/getgroup.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute();
+    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    $json = [];
+    foreach($result as $row){
+        $json[] = $row;
     }
-    getgroup();
+    echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );

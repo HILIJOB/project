@@ -1,11 +1,11 @@
 <?php
-    function deletefaculty(){
-        $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-        $delid = $_GET["delfacultyid"];
-        $query = "Delete from university.Faculty where facultyid = $delid";
-        if (mysqli_query($conn,$query)){
-            echo "Данные удалены";
-        } else{
-            echo "Ошибка";
-        }
-    }
+    echo "123";
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'id' => $_POST['id']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/deletefaculty.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);
+

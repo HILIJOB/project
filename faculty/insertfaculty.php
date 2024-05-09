@@ -1,13 +1,9 @@
 <?php
-    function insertfaculty()
-    {
-        $conn = mysqli_connect('127.0.0.1', 'dbuser', 'password', 'university');
-        printf("Успешно... %s\n", mysqli_get_host_info($conn));
-        $getfac = $_GET["faculty"];
-        $query= "INSERT INTO Faculty(Faculty) VALUES('$getfac')";
-        if (mysqli_query($conn,$query)){
-            echo "Данные внесены в таблицу Факультет";
-        } else{
-            echo "Ошибка";
-        }
-    }
+    global $conn;
+    require_once(__DIR__ . '/../connection.php');
+    $params = [
+        'facultyName' => $_POST['facultyName']
+    ];
+    $sql = file_get_contents(__DIR__ . '/../sql/insertfaculty.sql');
+    $sth = $conn->prepare($sql);
+    $sth->execute($params);

@@ -1,0 +1,1 @@
+DELETE FROM university.Group WHERE id = :id

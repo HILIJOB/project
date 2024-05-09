@@ -1,0 +1,1 @@
+INSERT INTO Faculty(facultyName) VALUES(:facultyName);
