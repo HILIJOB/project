@@ -1,2 +1,0 @@
-UPDATE university.Student SET studentFirstName = :studentFirstName, studentLastName = :studentLastName,
-                              studentPatronimic = :studentPatronimic, studentBirthday = :studentBirthday WHERE id = :id

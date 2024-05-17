@@ -2,15 +2,22 @@
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
     if(!(ctype_digit($_POST["id"]))) {
-        die("Incorrect input");
+        die("Неверный ввод");
     }
     $params = [
         'id' => $_POST["id"]
     ];
-    $deletefacultysql = file_get_contents(dirname(__DIR__) . '/sql/sqlfaculty/deletefaculty/deletefaculty.sql');
-    $deletedepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/sqlfaculty/deletefaculty/deletedepartmentfromfac.sql');
-    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/sqlfaculty/deletefaculty/deletegroupfromfac.sql');
-    $deletestudentsql = file_get_contents(dirname(__DIR__) . '/sql/sqlfaculty/deletefaculty/deletestudentfromfac.sql');
+    $checkfacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/checkfaculty.sql');
+    $checkfacultyquery = $conn->prepare($checkfacultysql);
+    $checkfacultyquery ->execute($params);
+    $checkfaculty = $checkfacultyquery->fetchAll(PDO::FETCH_ASSOC);
+    if($checkfaculty == array()){
+        die("Не существующий id");
+    }
+    $deletefacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/delete/deletefaculty.sql');
+    $deletedepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/faculty/delete/deletedepartmentfromfac.sql');
+    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/faculty/delete/deletegroupfromfac.sql');
+    $deletestudentsql = file_get_contents(dirname(__DIR__) . '/sql/faculty/delete/deletestudentfromfac.sql');
     $conn->beginTransaction();
     try{
         $deletestudentquery = $conn->prepare($deletestudentsql);

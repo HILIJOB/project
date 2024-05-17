@@ -1,12 +1,12 @@
 <?php
     global $conn;
-    require_once(__DIR__ . '/../connection.php');
-    $sql = file_get_contents(__DIR__ . '/../sql/getgroup.sql');
-    $sth = $conn->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    require_once(dirname(__DIR__) . '/connection.php');
+    $getgroupsql = file_get_contents(dirname(__DIR__) .'/sql/group/getgroup.sql');
+    $getgroupquery = $conn->prepare($getgroupsql);
+    $getgroupquery->execute();
+    $groups = $getgroupquery->fetchAll(PDO::FETCH_ASSOC);
     $json = [];
-    foreach($result as $row){
-        $json[] = $row;
+    foreach($groups as $group){
+        $json[] = $group;
     }
     echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );

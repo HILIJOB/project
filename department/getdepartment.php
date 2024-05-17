@@ -1,12 +1,12 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php' );
-    $sql = file_get_contents(__DIR__ . '/../sql/getdepartment.sql');
-    $query = $conn->prepare($sql);
-    $query->execute();
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    $getdepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/department/getdepartment.sql');
+    $getdepartmentquery = $conn->prepare($getdepartmentsql);
+    $getdepartmentquery->execute();
+    $departments = $getdepartmentquery->fetchAll(PDO::FETCH_ASSOC);
     $json = [];
-    foreach($result as $line){
-        $json[] = $line;
+    foreach($departments as $department){
+        $json[] = $department;
     }
     echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );

@@ -1,0 +1,1 @@
+SELECT id FROM Student WHERE id = :id

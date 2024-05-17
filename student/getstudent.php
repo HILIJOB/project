@@ -1,12 +1,12 @@
 <?php
     global $conn;
-    require_once(__DIR__ . '/../connection.php');
-    $sql = file_get_contents(__DIR__ . '/../sql/getstudent.sql');
-    $sth = $conn->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    require_once(dirname(__DIR__) . '/connection.php');
+    $getstudentsql = file_get_contents(dirname(__DIR__) . '/sql/student/getstudent.sql');
+    $getsudentquery = $conn->prepare($getstudentsql);
+    $getsudentquery->execute();
+    $students = $getsudentquery->fetchAll(PDO::FETCH_ASSOC);
     $json = [];
-    foreach($result as $row){
-        $json[] = $row;
+    foreach($students as $student){
+        $json[] = $student;
     }
     echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
