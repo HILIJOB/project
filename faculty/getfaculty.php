@@ -1,12 +1,12 @@
 <?php
     global $conn;
-    require_once(__DIR__ . '/../connection.php');
-    $sql = file_get_contents(__DIR__ . '/../sql/getfaculty.sql');
-    $sth = $conn->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    require_once(dirname(__DIR__) . '/connection.php');
+    $getfacultysql = file_get_contents(dirname(__DIR__) . '/sql/sqlfaculty/getfaculty.sql');
+    $getfacultyquery = $conn->prepare($getfacultysql);
+    $getfacultyquery->execute();
+    $faculties = $getfacultyquery->fetchAll(PDO::FETCH_ASSOC);
     $json = [];
-    foreach($result as $row){
-        $json[] = $row;
+    foreach($faculties as $faculty){
+        $json[] = $faculty;
     }
     echo json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
