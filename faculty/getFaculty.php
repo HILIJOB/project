@@ -1,7 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    $getfacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/getfaculty.sql');
+    $getfacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/getFaculty.sql');
     $getfacultyquery = $conn->prepare($getfacultysql);
     $getfacultyquery->execute();
     $faculties = $getfacultyquery->fetchAll(PDO::FETCH_ASSOC);

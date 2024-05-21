@@ -7,14 +7,14 @@
     $params = [
         'id' => $_POST["id"]
     ];
-    $checkstudentsql = file_get_contents(dirname(__DIR__) . '/sql/student/checkstudent.sql');
-    $checkstudentquery = $conn->prepare($checkstudentsql);
-    $checkstudentquery ->execute($params);
-    $checkstudent = $checkstudentquery->fetchAll(PDO::FETCH_ASSOC);
-    if($checkstudent == array()){
+    $getstudentbyidsql = file_get_contents(dirname(__DIR__) . '/sql/student/getStudentById.sql');
+    $getstudentbyidquery = $conn->prepare($getstudentbyidsql);
+    $getstudentbyidquery->execute($params);
+    $getstudentbyid = $getstudentbyidquery->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($getstudentbyid)){
         die("Не существующий id");
     }
-    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/student/deletestudent.sql');
+    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/student/deleteStudent.sql');
     $conn->beginTransaction();
     try{
         $deletegroupquery = $conn->prepare($deletegroupsql);
@@ -22,6 +22,6 @@
         $conn->commit();
     } catch(Exception $e){
         $conn->rollBack();
-        echo $e -> getMessage();
+        echo $e->getMessage();
     }
 

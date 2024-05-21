@@ -7,15 +7,15 @@
     $params = [
         'id' => $_POST["id"]
     ];
-    $checkgroupsql = file_get_contents(dirname(__DIR__) . '/sql/group/checkgroup.sql');
-    $checkgroupquery = $conn->prepare($checkgroupsql);
-    $checkgroupquery ->execute($params);
-    $checkgroup = $checkgroupquery->fetchAll(PDO::FETCH_ASSOC);
-    if($checkgroup == array()){
+    $getgroupbyidsql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroupById.sql');
+    $getgroupbyidquery = $conn->prepare($getgroupbyidsql);
+    $getgroupbyidquery->execute($params);
+    $getgroupbyid = $getgroupbyidquery->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($getgroupbyid)){
         die("Не существующий id");
     }
-    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deletegroup.sql');
-    $deletestudentsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deletestudentfromgr.sql');
+    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteGroup.sql');
+    $deletestudentsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteStudentFromGroup.sql');
     $conn->beginTransaction();
     try{
         $deletestudentquery = $conn->prepare($deletestudentsql);
@@ -25,6 +25,6 @@
         $conn->commit();
     } catch(Exception $e){
         $conn->rollBack();
-        echo $e -> getMessage();
+        echo $e->getMessage();
     }
 

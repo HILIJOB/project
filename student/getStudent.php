@@ -1,7 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    $getstudentsql = file_get_contents(dirname(__DIR__) . '/sql/student/getstudent.sql');
+    $getstudentsql = file_get_contents(dirname(__DIR__) . '/sql/student/getStudent.sql');
     $getsudentquery = $conn->prepare($getstudentsql);
     $getsudentquery->execute();
     $students = $getsudentquery->fetchAll(PDO::FETCH_ASSOC);

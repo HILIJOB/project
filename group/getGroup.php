@@ -1,7 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    $getgroupsql = file_get_contents(dirname(__DIR__) .'/sql/group/getgroup.sql');
+    $getgroupsql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroup.sql');
     $getgroupquery = $conn->prepare($getgroupsql);
     $getgroupquery->execute();
     $groups = $getgroupquery->fetchAll(PDO::FETCH_ASSOC);

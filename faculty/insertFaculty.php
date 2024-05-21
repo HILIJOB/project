@@ -7,6 +7,6 @@
     $params = [
         'facultyName' => $_POST['facultyName']
     ];
-    $insertfacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/insertfaculty.sql');
+    $insertfacultysql = file_get_contents(dirname(__DIR__) . '/sql/faculty/insertFaculty.sql');
     $insertfacultyquery = $conn->prepare($insertfacultysql);
     $insertfacultyquery->execute($params);

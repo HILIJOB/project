@@ -1,7 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php' );
-    $getdepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/department/getdepartment.sql');
+    $getdepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/department/getDepartment.sql');
     $getdepartmentquery = $conn->prepare($getdepartmentsql);
     $getdepartmentquery->execute();
     $departments = $getdepartmentquery->fetchAll(PDO::FETCH_ASSOC);
