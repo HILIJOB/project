@@ -1,7 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    if(!(ctype_digit($_POST["id"]))||(!(ctype_digit($_POST["facultyId"])))||!preg_match("/^[а-я А-Я]+$/u",$_POST['departmentName'])) {
+    if (!(ctype_digit($_POST["id"]))||(!(ctype_digit($_POST["facultyId"])))||!preg_match("/^[а-я А-Я]+$/u",$_POST['departmentName'])) {
         die("Неверный ввод");
     }
     $params = [
@@ -9,22 +9,22 @@
         'id' => $_POST['id'],
         'facultyId' => $_POST['facultyId']
     ];
-    $getfacultyfromidsql = file_get_contents(dirname(__DIR__) . '/sql/faculty/getFacultyById.sql');
-    $getfacultyfromidquery = $conn->prepare($getfacultyfromidsql);
-    $getfacultyfromidquery->bindParam('id',$_POST['facultyId']);
-    $getfacultyfromidquery->execute();
-    $getfacultyfromid = $getfacultyfromidquery->fetchAll(PDO::FETCH_ASSOC);
-    if(empty($getfacultyfromid)){
+    $getFacultyByIdSql = file_get_contents(dirname(__DIR__) . '/sql/faculty/getFacultyById.sql');
+    $getFacultyByIdQuery = $conn->prepare($getFacultyByIdSql);
+    $getFacultyByIdQuery->bindParam('id',$_POST['facultyId']);
+    $getFacultyByIdQuery->execute();
+    $getFacultyById = $getFacultyByIdQuery->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($getFacultyById)) {
         die("Не существующий id факультета");
     }
-    $getdepartmentfromidsql = file_get_contents(dirname(__DIR__) . '/sql/department/getDepartmentById.sql');
-    $getdepartmentfromidquery = $conn->prepare($getdepartmentfromidsql);
-    $getdepartmentfromidquery->bindParam('id',$_POST['id']);
-    $getdepartmentfromidquery->execute();
-    $getdepartmentfromid = $getdepartmentfromidquery->fetchAll(PDO::FETCH_ASSOC);
-    if(empty($getdepartmentfromid)){
+    $getDepartmentFromIdSql = file_get_contents(dirname(__DIR__) . '/sql/department/getDepartmentById.sql');
+    $getDepartmentFromIdQuery = $conn->prepare($getDepartmentFromIdSql);
+    $getDepartmentFromIdQuery->bindParam('id',$_POST['id']);
+    $getDepartmentFromIdQuery->execute();
+    $getDepartmentFromId = $getDepartmentFromIdQuery->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($getDepartmentFromId)) {
         die("Не существующий id");
     }
-    $updatedepartmentsql = file_get_contents(dirname(__DIR__) . '/sql/department/updateDepartment.sql');
-    $updatedepartmentquery = $conn->prepare($updatedepartmentsql);
-    $updatedepartmentquery->execute($params);
+    $updateDepartmentSql = file_get_contents(dirname(__DIR__) . '/sql/department/updateDepartment.sql');
+    $updateDepartmentQuery = $conn->prepare($updateDepartmentSql);
+    $updateDepartmentQuery->execute($params);

@@ -1,11 +1,11 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    if(!(ctype_digit($_POST["id"])) || !(ctype_digit($_POST["groupId"])) || !preg_match("/^[а-я А-Я]+$/u",
+    if (!(ctype_digit($_POST["id"])) || !(ctype_digit($_POST["groupId"])) || !preg_match("/^[а-я А-Я]+$/u",
         $_POST['studentFirstName'])
     || !preg_match("/^[а-я А-Я]+$/u",$_POST['studentLastName']) || !preg_match("/^[а-я А-Я]+$/u",$_POST['studentPatronimic'])
     || !preg_match("/^[ 0-9-]+$/u",$_POST['studentBirthday'])) {
-    die("Неверный ввод");
+        die("Неверный ввод");
     }
     $params = [
         'id' => $_POST['id'],
@@ -15,22 +15,22 @@
         'studentBirthday' => $_POST['studentBirthday'],
         'groupId' => $_POST['groupId']
     ];
-    $getstudentbyidsql = file_get_contents(dirname(__DIR__) . '/sql/student/getStudentById.sql');
-    $getstudentbyidquery = $conn->prepare($getstudentbyidsql);
-    $getstudentbyidquery->bindParam('id',$_POST['id']);
-    $getstudentbyidquery->execute();
-    $getstudentbyid = $getstudentbyidquery->fetchAll(PDO::FETCH_ASSOC);
-    if(empty($getstudentbyid)){
+    $getStudentByIdSql = file_get_contents(dirname(__DIR__) . '/sql/student/getStudentById.sql');
+    $getStudentByIdQuery = $conn->prepare($getStudentByIdSql);
+    $getStudentByIdQuery->bindParam('id',$_POST['id']);
+    $getStudentByIdQuery->execute();
+    $getStudentById = $getStudentByIdQuery->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($getStudentById)) {
         die("Не существующий id");
     }
-    $getgroupbyidsql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroupById.sql');
-    $getgroupbyidquery = $conn->prepare($getgroupbyidsql);
-    $getgroupbyidquery->bindParam('id',$_POST['groupId']);
-    $getgroupbyidquery->execute();
-    $getgroupbyid = $getgroupbyidquery->fetchAll(PDO::FETCH_ASSOC);
-    if(empty($getgroupbyid)){
+    $getGroupByIdSql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroupById.sql');
+    $getGroupByIdQuery = $conn->prepare($getGroupByIdSql);
+    $getGroupByIdQuery->bindParam('id',$_POST['groupId']);
+    $getGroupByIdQuery->execute();
+    $getGroupById = $getGroupByIdQuery->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($getGroupById)) {
         die("Не существующий id группы");
     }
-    $updatestudentsql = file_get_contents(dirname(__DIR__) . '/sql/student/updateStudent.sql');
-    $updatestudentquery = $conn->prepare($updatestudentsql);
-    $updatestudentquery->execute($params);
+    $updateStudentSql = file_get_contents(dirname(__DIR__) . '/sql/student/updateStudent.sql');
+    $updateStudentQuery = $conn->prepare($updateStudentSql);
+    $updateStudentQuery->execute($params);

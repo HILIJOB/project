@@ -1,58 +1,55 @@
 <?php
 global $conn;
 require_once('connection.php');
-$getfacultysql = file_get_contents('sql/faculty/getFaculty.sql');
-$getfacultyquery = $conn->prepare($getfacultysql);
-$getfacultyquery->execute();
-$facultydata = $getfacultyquery->fetchAll(PDO::FETCH_ASSOC);
-$getdepartmentsql = file_get_contents('sql/department/getDepartment.sql');
-$getdepartmentquery = $conn->prepare($getdepartmentsql);
-$getdepartmentquery->execute();
-$departmentdata = $getdepartmentquery->fetchAll(PDO::FETCH_ASSOC);
-$getgroupsql = file_get_contents('sql/group/getGroup.sql');
-$getgroupquery = $conn->prepare($getgroupsql);
-$getgroupquery->execute();
-$groupdata = $getgroupquery->fetchAll(PDO::FETCH_ASSOC);
-$getstudentsql = file_get_contents('sql/student/getStudent.sql');
-$getstudentquery = $conn->prepare($getstudentsql);
-$getstudentquery->execute();
-$studentdata = $getstudentquery->fetchAll(PDO::FETCH_ASSOC);
+$getFacultySql = file_get_contents('sql/faculty/getFaculty.sql');
+$getFacultyQuery = $conn->prepare($getFacultySql);
+$getFacultyQuery->execute();
+$facultyData = $getFacultyQuery->fetchAll(PDO::FETCH_ASSOC);
+$getDepartmentSql = file_get_contents('sql/department/getDepartment.sql');
+$getDepartmentQuery = $conn->prepare($getDepartmentSql);
+$getDepartmentQuery->execute();
+$departmentData = $getDepartmentQuery->fetchAll(PDO::FETCH_ASSOC);
+$getGroupSql = file_get_contents('sql/group/getGroup.sql');
+$getGroupQuery = $conn->prepare($getGroupSql);
+$getGroupQuery->execute();
+$groupData = $getGroupQuery->fetchAll(PDO::FETCH_ASSOC);
+$getStudentSql = file_get_contents('sql/student/getStudent.sql');
+$getStudentQuery = $conn->prepare($getStudentSql);
+$getStudentQuery->execute();
+$studentData = $getStudentQuery->fetchAll(PDO::FETCH_ASSOC);
 $data = [];
 define("FACULTY_LEVEL", 1);
-define("DEPARTMENT_LEVEL",2);
-define("GROUP_LEVEL",3);
-define("STUDENT_LEVEL",4);
-$parentiddata = array(
+define("DEPARTMENT_LEVEL", 2);
+define("GROUP_LEVEL", 3);
+define("STUDENT_LEVEL", 4);
+$parentIdData = [
     DEPARTMENT_LEVEL => "facultyId",
     GROUP_LEVEL => "departmentId",
     STUDENT_LEVEL => "groupId"
-);
-$databases = array(
-    DEPARTMENT_LEVEL => $departmentdata,
-    GROUP_LEVEL => $groupdata,
-    STUDENT_LEVEL => $studentdata
-);
-function getTree($tree, $parentid, $level){
-    global $facultydata;
-    global $parentiddata;
+];
+$databases = [
+    DEPARTMENT_LEVEL => $departmentData,
+    GROUP_LEVEL => $groupData,
+    STUDENT_LEVEL => $studentData
+];
+function getTree($tree, $parentId, $level)
+{
+    global $facultyData;
+    global $parentIdData;
     global $databases;
-    if($level == FACULTY_LEVEL){
-        foreach($facultydata as $faculty){
+    if ($level == FACULTY_LEVEL) {
+        foreach ($facultyData as $faculty) {
+            $faculty["children"] = getTree($tree,$faculty['id'],DEPARTMENT_LEVEL);
             $tree[] = $faculty;
-            $parentid = $faculty['id'];
-            $tree[] = getTree($tree,$parentid,DEPARTMENT_LEVEL);
         }
-    } else{
+    } else {
         $children = [];
-        foreach($databases[$level] as $row){
-            if($row[$parentiddata[$level]] == $parentid){
-                $children[] = $row;
-                if($level == DEPARTMENT_LEVEL || $level == GROUP_LEVEL){
-                    $addchildren = getTree($tree,$row['id'],$level+1);
-                    if(!empty($addchildren)){
-                        $children[] = $addchildren;
-                    }
+        foreach ($databases[$level] as $row) {
+            if ($row[$parentIdData[$level]] == $parentId) {
+                if ($level == DEPARTMENT_LEVEL || $level == GROUP_LEVEL) {
+                    $row["children"] = getTree($tree,$row['id'],$level+1);
                 }
+                $children[] = $row;
             }
         }
         return $children;

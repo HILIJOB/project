@@ -1,29 +1,29 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    if(!(ctype_digit($_POST["id"]))) {
+    if (!(ctype_digit($_POST["id"]))) {
         die("Неверный ввод");
     }
     $params = [
         'id' => $_POST["id"]
     ];
-    $getgroupbyidsql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroupById.sql');
-    $getgroupbyidquery = $conn->prepare($getgroupbyidsql);
-    $getgroupbyidquery->execute($params);
-    $getgroupbyid = $getgroupbyidquery->fetchAll(PDO::FETCH_ASSOC);
-    if(empty($getgroupbyid)){
+    $getGroupByIdSql = file_get_contents(dirname(__DIR__) . '/sql/group/getGroupById.sql');
+    $getGroupByIdQuery = $conn->prepare($getGroupByIdSql);
+    $getGroupByIdQuery->execute($params);
+    $getGroupById = $getGroupByIdQuery->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($getGroupById)) {
         die("Не существующий id");
     }
-    $deletegroupsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteGroup.sql');
-    $deletestudentsql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteStudentFromGroup.sql');
+    $deleteGroupSql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteGroup.sql');
+    $deleteStudentSql = file_get_contents(dirname(__DIR__) . '/sql/group/delete/deleteStudentFromGroup.sql');
     $conn->beginTransaction();
-    try{
-        $deletestudentquery = $conn->prepare($deletestudentsql);
-        $deletestudentquery->execute($params);
-        $deletegroupquery = $conn->prepare($deletegroupsql);
-        $deletegroupquery->execute($params);
+    try {
+        $deleteStudentQuery = $conn->prepare($deleteStudentSql);
+        $deleteStudentQuery->execute($params);
+        $deleteGroupQuery = $conn->prepare($deleteGroupSql);
+        $deleteGroupQuery->execute($params);
         $conn->commit();
-    } catch(Exception $e){
+    } catch(Exception $e) {
         $conn->rollBack();
         echo $e->getMessage();
     }
