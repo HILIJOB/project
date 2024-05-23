@@ -1,8 +1,7 @@
 <?php
     global $conn;
     require_once(dirname(__DIR__) . '/connection.php');
-    if (!(ctype_digit($_POST["id"])) || !(ctype_digit($_POST["groupId"])) || !preg_match("/^[а-я А-Я]+$/u",
-        $_POST['studentFirstName'])
+    if (!(ctype_digit($_POST["id"])) || !(ctype_digit($_POST["groupId"])) || !preg_match("/^[а-я А-Я]+$/u", $_POST['studentFirstName'])
     || !preg_match("/^[а-я А-Я]+$/u",$_POST['studentLastName']) || !preg_match("/^[а-я А-Я]+$/u",$_POST['studentPatronimic'])
     || !preg_match("/^[ 0-9-]+$/u",$_POST['studentBirthday'])) {
         die("Неверный ввод");
