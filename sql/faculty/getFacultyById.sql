@@ -1,0 +1,1 @@
+SELECT id FROM university.Faculty WHERE id = :id

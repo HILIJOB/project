@@ -1,0 +1,1 @@
+INSERT INTO university.Group(groupName,departmentId) VALUES(:groupName,:departmentId);

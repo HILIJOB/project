@@ -1,0 +1,1 @@
+SELECT id FROM university.Group WHERE id = :id
