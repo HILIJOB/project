@@ -1,1 +1,0 @@
-SELECT id FROM university.Department WHERE id = :id

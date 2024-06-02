@@ -1,1 +1,0 @@
-DELETE FROM university.Department WHERE id = :id

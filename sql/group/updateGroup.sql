@@ -1,1 +1,0 @@
-UPDATE university.Group SET groupName = :groupName, departmentId = :departmentId WHERE id = :id
