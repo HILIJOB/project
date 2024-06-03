@@ -9,7 +9,8 @@ require_once (dirname(__DIR__). "/vendor/doctrine/orm/bootstrap.php");
 require_once (dirname(__DIR__). "/vendor/doctrine/orm/src/Faculty.php");
 require_once "facultyDTO.php";
 global $entityManager;
-class FacultyRepository{
+class FacultyRepository
+{
     private $entityManager;
     public function __construct($entityManager)
     {

@@ -6,7 +6,8 @@ use Services;
 use DTO;
 
 require_once(dirname(__DIR__) . '/services/facultyService.php');
-class FacultyController{
+class FacultyController
+{
     public function getFaculty()
     {
         $facultyServiceCore = new Services\FacultyService();

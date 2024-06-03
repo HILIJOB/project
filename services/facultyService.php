@@ -8,8 +8,8 @@ use DTO;
 require_once(dirname(__DIR__) . "/vendor/doctrine/orm/bootstrap.php");
 require_once(dirname(__DIR__) . "/vendor/doctrine/orm/src/Faculty.php");
 require_once(dirname(__DIR__) . '/repositories/facultyRepository.php');
-class FacultyService {
-    private array $params;
+class FacultyService 
+{
     public function getFaculty() 
     {
         global $entityManager;
