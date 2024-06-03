@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Services;
 use DTO;
+
 require_once(dirname(__DIR__) . '/services/facultyService.php');
 class FacultyController{
     public function getFaculty()
