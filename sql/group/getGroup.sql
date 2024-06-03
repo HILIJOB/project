@@ -1,1 +1,0 @@
-SELECT * FROM university.Group

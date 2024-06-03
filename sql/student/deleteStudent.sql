@@ -1,1 +1,0 @@
-DELETE FROM university.Student WHERE id = :id

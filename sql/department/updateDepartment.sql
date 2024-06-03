@@ -1,1 +1,0 @@
-UPDATE university.Department SET departmentName = :departmentName, facultyId = :facultyId WHERE id = :id
