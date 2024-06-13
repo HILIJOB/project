@@ -1,6 +1,6 @@
 <?php
 
-namespace DTO;
+namespace app\repositories;
 
 class FacultyDTO
 {

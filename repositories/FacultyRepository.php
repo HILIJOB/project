@@ -1,15 +1,12 @@
 <?php
 
-namespace Repositories;
+namespace app\repositories;
 
-use DTO;
-use Vendor\Doctrine\Orm\Src\Faculty;
+use app\repositories\FacultyDTO;
+use app\entities\FacultyEntity;
+use Doctrine\ORM\EntityRepository;
 
-require_once (dirname(__DIR__). "/vendor/doctrine/orm/bootstrap.php");
-require_once (dirname(__DIR__). "/vendor/doctrine/orm/src/Faculty.php");
-require_once "facultyDTO.php";
-global $entityManager;
-class FacultyRepository
+class FacultyRepository extends EntityRepository
 {
     private $entityManager;
     public function __construct($entityManager)
@@ -22,29 +19,30 @@ class FacultyRepository
         return($queryBuilder
                     ->select(sprintf(
                         'NEW %s(f.id, f.facultyName)',
-                        DTO\FacultyDTO::class
+                        FacultyDTO::class
                     ))
-                    ->from(Faculty::class,'f'
+                    ->from(FacultyEntity::class,'f'
                     )
                     ->getQuery()
                     ->getResult()
-                    );
-                    
+                    );      
+        // return($this->entityManager->getRepository(FacultyEntity::class)->findAll()); 
+        // после этого выводит id:null, facultyName:null
     }
-    public function insertFaculty($paramsDTO)
+    public function insertFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
-        $faculty = new Faculty();
+        $faculty = new FacultyEntity();
         $faculty->setFacultyName($params['facultyName']);
         $this->entityManager->persist($faculty);
         $this->entityManager->flush();
     }
-    public function updateFaculty($paramsDTO)
+    public function updateFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder
-            ->update(Faculty::class,'f')
+            ->update(FacultyEntity::class,'f')
             ->set('f.facultyName',':facultyName')
             ->where('f.id = :id')
             ->setParameter('id',$params['id'])
@@ -52,17 +50,15 @@ class FacultyRepository
             ->getQuery()
             ->getResult();
     }
-    public function deleteFaculty($paramsDTO)
+    public function deleteFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder
-            ->delete(Faculty::class,'f')
+            ->delete(FacultyEntity::class,'f')
             ->where('f.id = :id')
             ->setParameter('id',$params['id'])
             ->getQuery()
             ->getResult();
     }
 }
-
-
