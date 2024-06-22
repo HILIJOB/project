@@ -2,33 +2,41 @@
 
 namespace app\core;
 
-use app\controllers\FacultyController;
+use app\core\Request;
 
 class Router {
+
     private Request $request;
-    public function __construct() 
+
+    public function __construct(private $container) 
     {
-        $this->request = new Request($_SERVER['REQUEST_METHOD']);
+        $raw = empty(json_decode(file_get_contents('php://input'),true)) ? [] : json_decode(file_get_contents('php://input'),true);
+        $_POST = empty($_POST) ? [] : $_POST;
+        $this->request = new Request($_SERVER["REQUEST_METHOD"], $_SERVER['REQUEST_URI'], array_merge($raw,$_POST), $_GET);
     }
-    public function callFunc()
+
+    public function handleRequest()
     {
-        switch($this->request->getAct()) {
-            case 'faculty':
-                $action = new FacultyController;
-                switch($this->request->getMethod()){
-                    case 'getFaculty': 
-                        $action->getFaculty();
-                        break;
-                    case 'insertFaculty':
-                        $action->insertFaculty();
-                        break;
-                    case 'updateFaculty':
-                        $action->updateFaculty();
-                        break;
-                    case 'deleteFaculty':
-                        $action->deleteFaculty();
-                        break;    
+
+        if ($this->request->getPath()) {
+
+            $requestPath = $this->request->getPath();
+            $query = parse_url($requestPath, PHP_URL_QUERY);
+            parse_str($query, $path);
+
+            $action = ucfirst($path['act']);
+
+            $method = $path['method'];
+            $controllerName = 'app\\controllers' . '\\' . $action . 'Controller';
+            if (class_exists($controllerName)) {
+                $controller = $this->container->get($controllerName);
+                if ($this->request->getMethod() == "GET"){
+                    $controller->$method();
+                } else {
+                    $controller->$method($this->request);
                 }
+            }
         }
+        
     }
 }

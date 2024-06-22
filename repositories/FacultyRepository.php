@@ -26,8 +26,6 @@ class FacultyRepository extends EntityRepository
                     ->getQuery()
                     ->getResult()
                     );      
-        // return($this->entityManager->getRepository(FacultyEntity::class)->findAll()); 
-        // после этого выводит id:null, facultyName:null
     }
     public function insertFaculty(FacultyDTO $paramsDTO)
     {

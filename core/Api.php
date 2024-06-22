@@ -8,10 +8,12 @@ class Api{
     public Router $router;
     public function __construct()
     {
-        $this->router = new Router();
+        global $container;
+        $this->router = new Router($container);
     }
+    
     public function start()
     {
-        $this->router->callFunc();
+        $this->router->handleRequest();
     }
 }

@@ -3,27 +3,37 @@
 namespace app\core;
 
 class Request {
+
     public string $httpMethod;
-    public function __construct(string $httpMethod) 
+    private array $postParams;
+    private string $path;
+    private array $headers;
+
+    public function __construct($httpMethod, $path, $postParams, $headers) 
     {
         $this->httpMethod = $httpMethod;
+        $this->postParams = $postParams;
+        $this->path = $path;
+        $this->headers = $headers;
     }
-    public function getAct()
-    {
-        if ($this->httpMethod == "GET") {
-            return $_GET['act'];
-        }
-        if ($this->httpMethod == 'POST') {
-            return $_POST['act'];
-        }
-    }
+
     public function getMethod()
     {
-        if ($this->httpMethod == "GET") {
-            return $_GET['method'];
-        }
-        if ($this->httpMethod == 'POST') {
-            return $_POST['method'];
-        }
+        return $this->httpMethod;
+    }
+
+    public function getParams($key) 
+    {
+        return $this->postParams[$key];
+    }
+    
+    public function getPath() 
+    {
+        return $this->path;
+    }
+
+    public function getHeaders() 
+    {
+        return $this->headers;
     }
 }
