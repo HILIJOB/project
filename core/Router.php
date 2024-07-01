@@ -23,7 +23,6 @@ class Router {
             $requestPath = $this->request->getPath();
             $query = parse_url($requestPath, PHP_URL_QUERY);
             parse_str($query, $path);
-
             $action = ucfirst($path['act']);
 
             $method = $path['method'];

@@ -2,7 +2,6 @@
 
 namespace app\services;
 
-use app\controllers\FacultyController;
 use app\repositories\FacultyDTO;
 use app\repositories\FacultyRepository;
 
@@ -16,9 +15,9 @@ class FacultyService
     }
     public function getFaculty() 
     {
+        $facultiesDTO = [];
         foreach ($this->facultyRepository->getFaculty() as $faculty) {
-            $faculty = get_object_vars($faculty);
-            $facultiesDTO[] = new FacultyDTO($faculty['id'],$faculty['facultyName']);
+            $facultiesDTO[] = new FacultyDTO($faculty->getId(),$faculty->getFacultyName());
         }
         return $facultiesDTO;
     }
