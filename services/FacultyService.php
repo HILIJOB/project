@@ -7,12 +7,15 @@ use app\repositories\FacultyRepository;
 
 class FacultyService
 {
+
     private FacultyRepository $facultyRepository;
+    
     public function __construct()
     {
         global $entityManager;
         $this->facultyRepository = new FacultyRepository($entityManager);
     }
+
     public function getFaculty() 
     {
         $facultiesDTO = [];
@@ -21,6 +24,7 @@ class FacultyService
         }
         return $facultiesDTO;
     }
+
     public function insertFaculty(FacultyDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -28,6 +32,7 @@ class FacultyService
         $paramsDTOtoRepository = new FacultyDTO(null, $facultyName);
         $this->facultyRepository->insertFaculty($paramsDTOtoRepository);
     }
+
     public function updateFaculty(FacultyDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -40,6 +45,7 @@ class FacultyService
             echo 'Неверный ввод';
         }
     }
+    
     public function deleteFaculty(FacultyDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);

@@ -11,16 +11,20 @@ use Doctrine\ORM\EntityRepository;
 
 class FacultyRepository extends EntityRepository
 {
+
     private $entityManager;
+    
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
     public function getFaculty()
     {
         $faculties = $this->entityManager->getRepository(FacultyEntity::class);   
         return $faculties->findAll();
     }
+
     public function insertFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -29,6 +33,7 @@ class FacultyRepository extends EntityRepository
         $this->entityManager->persist($faculty);
         $this->entityManager->flush();
     }
+
     public function updateFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -42,6 +47,7 @@ class FacultyRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+    
     public function deleteFaculty(FacultyDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);

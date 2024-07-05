@@ -11,16 +11,20 @@ use Doctrine\ORM\EntityRepository;
 
 class DepartmentRepository extends EntityRepository
 {
+
     private $entityManager;
+    
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
     public function getDepartment()
     {
         $departments = $this->entityManager->getRepository(DepartmentEntity::class);   
         return $departments->findAll();
     }
+
     public function insertDepartment(DepartmentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -30,6 +34,7 @@ class DepartmentRepository extends EntityRepository
         $this->entityManager->persist($department);
         $this->entityManager->flush();
     }
+
     public function updateDepartment(DepartmentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -39,6 +44,7 @@ class DepartmentRepository extends EntityRepository
         $this->entityManager->persist($department);
         $this->entityManager->flush();
     }
+    
     public function deleteDepartment(DepartmentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);

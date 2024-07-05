@@ -14,34 +14,29 @@ class DepartmentController
     ) 
     {  
     }
+
     public function getDepartment()
     {
         echo json_encode($this->departmentService->getDepartment(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
     public function insertDepartment(Request $request)
     {
-        $params = [
-            'departmentName' => $request->getParams('departmentName'),
-            'facultyId' => $request->getParams('facultyId')
-        ];
+        $params = $request->getParams(['departmentName','facultyId']);
         $paramsDTO = new DepartmentDTO(null, $params['departmentName'], $params['facultyId']);
         $this->departmentService->insertDepartment($paramsDTO);
     }
+
     public function updateDepartment(Request $request)
     {
-        $params = [
-            'id' => $request->getParams('id'),
-            'departmentName' => $request->getParams('departmentName'),
-            'facultyId' => $request->getParams('facultyId')
-        ];
+        $params = $request->getParams(['id','departmentName','facultyId']);
         $paramsDTO = new DepartmentDTO($params['id'], $params['departmentName'], $params['facultyId']);
         $this->departmentService->updateDepartment($paramsDTO);
     }
+    
     public function deleteDepartment(Request $request)
     {
-        $params = [
-            'id' => $request->getParams('id')
-        ];
+        $params = $request->getParams(['id']);
         $paramsDTO = new DepartmentDTO($params['id'],null,null);
         $this->departmentService->deleteDepartment($paramsDTO);
     }         

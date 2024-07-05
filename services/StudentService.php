@@ -7,12 +7,15 @@ use app\repositories\StudentDTO;
 
 class StudentService
 {
+
     private StudentRepository $studentRepository;
+    
     public function __construct()
     {
         global $entityManager;
         $this->studentRepository = new StudentRepository($entityManager);
     }
+
     public function getStudent() 
     {
         $studentsDTO = [];
@@ -27,6 +30,7 @@ class StudentService
         }
         return $studentsDTO;
     }
+
     public function insertStudent(StudentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -38,6 +42,7 @@ class StudentService
         $paramsDTOtoRepository = new StudentDTO(null, $studentFirstName, $studentLastName,$studentPatronimic,$studentBirthday,$groupId);
         $this->studentRepository->insertStudent($paramsDTOtoRepository);
     }
+
     public function updateStudent(StudentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -54,6 +59,7 @@ class StudentService
             echo 'Неверный ввод';
         }
     }
+    
     public function deleteStudent(StudentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);

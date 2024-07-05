@@ -14,34 +14,29 @@ class GroupController
     ) 
     {  
     }
+
     public function getGroup()
     {
         echo json_encode($this->groupService->getGroup(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
     public function insertGroup(Request $request)
     {
-        $params = [
-            'groupName' => $request->getParams('groupName'),
-            'departmentId' => $request->getParams('departmentId')
-        ];
+        $params = $request->getParams(['groupName','departmentId']);
         $paramsDTO = new GroupDTO(null, $params['groupName'], $params['departmentId']);
         $this->groupService->insertGroup($paramsDTO);
     }
+
     public function updateGroup(Request $request)
     {
-        $params = [
-            'id' => $request->getParams('id'),
-            'groupName' => $request->getParams('groupName'),
-            'departmentId' => $request->getParams('departmentId')
-        ];
+        $params = $request->getParams(['id','groupName','departmentId']);
         $paramsDTO = new GroupDTO($params['id'], $params['groupName'], $params['departmentId']);
         $this->groupService->updateGroup($paramsDTO);
     }
+    
     public function deleteGroup(Request $request)
     {
-        $params = [
-            'id' => $request->getParams('id')
-        ];
+        $params = $request->getParams(['id']);
         $paramsDTO = new GroupDTO($params['id'],null,null);
         $this->groupService->deleteGroup($paramsDTO);
     }         

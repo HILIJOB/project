@@ -5,7 +5,9 @@ namespace app\core;
 use app\core\Router;
 
 class Api{
+
     public Router $router;
+    
     public function __construct()
     {
         global $container;

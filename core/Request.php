@@ -5,8 +5,11 @@ namespace app\core;
 class Request {
 
     public string $httpMethod;
+
     private array $postParams;
+
     private string $path;
+    
     private array $headers;
 
     public function __construct($httpMethod, $path, $postParams, $headers) 
@@ -22,9 +25,13 @@ class Request {
         return $this->httpMethod;
     }
 
-    public function getParams($key) 
+    public function getParams(array $keys) 
     {
-        return $this->postParams[$key];
+        $params = [];
+        foreach ($keys as $key) {
+            $params[$key] = $this->postParams[$key];
+        }
+        return $params;
     }
     
     public function getPath() 

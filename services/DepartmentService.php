@@ -7,12 +7,15 @@ use app\repositories\DepartmentDTO;
 
 class DepartmentService
 {
+
     private DepartmentRepository $departmentRepository;
+    
     public function __construct()
     {
         global $entityManager;
         $this->departmentRepository = new DepartmentRepository($entityManager);
     }
+
     public function getDepartment() 
     {
         $departmentsDTO = [];
@@ -21,6 +24,7 @@ class DepartmentService
         }
         return $departmentsDTO;
     }
+
     public function insertDepartment(DepartmentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -29,6 +33,7 @@ class DepartmentService
         $paramsDTOtoRepository = new DepartmentDTO(null, $departmentName, $facultyId);
         $this->departmentRepository->insertDepartment($paramsDTOtoRepository);
     }
+
     public function updateDepartment(DepartmentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -42,6 +47,7 @@ class DepartmentService
             echo 'Неверный ввод';
         }
     }
+    
     public function deleteDepartment(DepartmentDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);

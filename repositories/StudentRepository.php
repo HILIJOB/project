@@ -9,16 +9,20 @@ use Doctrine\ORM\EntityRepository;
 
 class StudentRepository extends EntityRepository
 {
+
     private $entityManager;
+    
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
     public function getStudent()
     {            
-        $groups = $this->entityManager->getRepository(StudentEntity::class);   
-        return $groups->findAll();
+        $students = $this->entityManager->getRepository(StudentEntity::class);   
+        return $students->findAll();
     }
+
     public function insertStudent(StudentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -31,6 +35,7 @@ class StudentRepository extends EntityRepository
         $this->entityManager->persist($student);
         $this->entityManager->flush();
     }
+
     public function updateStudent(StudentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -43,6 +48,7 @@ class StudentRepository extends EntityRepository
         $this->entityManager->persist($student);
         $this->entityManager->flush();
     }
+    
     public function deleteStudent(StudentDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);

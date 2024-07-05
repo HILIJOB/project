@@ -10,16 +10,20 @@ use Doctrine\ORM\EntityRepository;
 
 class GroupRepository extends EntityRepository
 {
+
     private $entityManager;
+    
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
     public function getGroup()
     {            
         $groups = $this->entityManager->getRepository(GroupEntity::class);   
         return $groups->findAll();
     }
+
     public function insertGroup(GroupDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -29,6 +33,7 @@ class GroupRepository extends EntityRepository
         $this->entityManager->persist($group);
         $this->entityManager->flush();
     }
+
     public function updateGroup(GroupDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);
@@ -38,6 +43,7 @@ class GroupRepository extends EntityRepository
         $this->entityManager->persist($group);
         $this->entityManager->flush();
     }
+    
     public function deleteGroup(GroupDTO $paramsDTO)
     {
         $params = get_object_vars($paramsDTO);

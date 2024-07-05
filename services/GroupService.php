@@ -7,12 +7,15 @@ use app\repositories\GroupDTO;
 
 class GroupService
 {
+
     private GroupRepository $groupRepository;
+    
     public function __construct()
     {
         global $entityManager;
         $this->groupRepository = new GroupRepository($entityManager);
     }
+
     public function getGroup() 
     {
         $groupsDTO = [];
@@ -21,6 +24,7 @@ class GroupService
         }
         return $groupsDTO;
     }
+
     public function insertGroup(GroupDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -29,6 +33,7 @@ class GroupService
         $paramsDTOtoRepository = new GroupDTO(null, $groupName, $departmentId);
         $this->groupRepository->insertGroup($paramsDTOtoRepository);
     }
+
     public function updateGroup(GroupDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
@@ -42,6 +47,7 @@ class GroupService
             echo 'Неверный ввод';
         }
     }
+    
     public function deleteGroup(GroupDTO $paramsDTOfromController)
     {
         $params = get_object_vars($paramsDTOfromController);
