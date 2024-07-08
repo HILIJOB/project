@@ -15,8 +15,7 @@ class TreeController
     
     public function getTree()
     { 
-        $data = [];
-        echo json_encode($this->treeService->getTree($data,null,$this->treeService::FACULTY_LEVEL), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        echo json_encode($this->treeService->getTree(null,$this->treeService::FACULTY_LEVEL), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
           
 }
